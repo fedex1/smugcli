@@ -102,6 +102,7 @@ class SmugMugOAuth():
       print(f'Visit {login_url} to grant SmugCli access to your SmugMug '
             'account.')
       print(f'Opening {login_url} in default browser...')
+      print(f'QQQ self._is_cygwin(): {self._is_cygwin()}')
       if self._is_cygwin():
         try:
           return_code = subprocess.call(['cygstart', login_url],
@@ -111,20 +112,24 @@ class SmugMugOAuth():
         except Exception:  # pylint: disable=broad-except
           success = False
       else:
-        success = webbrowser.open(login_url)
+          print(f'QQQ call webbrowser.open({login_url})')
+          success = webbrowser.open(login_url)
+          print(f'QQQ RETURN call webbrowser.open({login_url}) success: {success}')
 
       if not success:
         print('Could not start default browser automatically.')
         print(f'Please visit {login_url} to complete login process.')
 
       while state.running and thread.is_alive():
+        print(f'QQQ JOIN??? state.access_token: {state.access_token} {vars(state)}   {thread.is_alive()}')
         thread.join(1)
     finally:
       state.app.close()
 
     if state.access_token is None:
       raise LoginError("Failed requesting access token.")
-
+    
+    print(f'QQQ RETURN {state.access_token}')
     return state.access_token
 
   def get_oauth(
@@ -149,6 +154,7 @@ class SmugMugOAuth():
 
   def _index(self, state: _State) -> None:
     """Route initiating the authorization process."""
+    print(f'QQQ index: {vars(state)}')
     request_token, request_token_secret = self._service.get_request_token(
         params={'oauth_callback': f'http://localhost:{state.port}/callback'})
     state.request_token = RequestToken(
@@ -163,7 +169,7 @@ class SmugMugOAuth():
     """Route invoked after the user completes the authorization request."""
     if state.request_token is None:
       raise LoginError("No request token obtained.")
-
+    print(f'QQQ callback: {vars(bottle.request)}')
     oauth_verifier = bottle.request.query['oauth_verifier']  # type: ignore
     (token, secret) = self._service.get_access_token(
         state.request_token.token, state.request_token.secret,

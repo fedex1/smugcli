@@ -3,6 +3,7 @@
 from typing import Any, List, MutableMapping, MutableSequence, Optional, Tuple
 from typing import Union
 
+import sys
 import base64
 import collections
 import hashlib
@@ -473,8 +474,12 @@ class SmugMug():
   def login(self, key: str, secret: str) -> None:
     """Does an OAuth login to the SmugMug service."""
     self.config['api_key'] = (key, secret)
-    access_token = self.service.request_access_token()
-    self.config['access_token'] = (access_token.token, access_token.secret)
+    # access_token = self.service.request_access_token()
+    # self.config['access_token'] = (access_token.token, access_token.secret)
+    self.config['access_token'] = ( os.environ['SMUGMUG_ACCESS_TOKEN'], os.environ['SMUGMUG_TOKEN_SECRET'])
+
+
+
 
   def logout(self) -> None:
     """Logout from the SmugMug service."""
