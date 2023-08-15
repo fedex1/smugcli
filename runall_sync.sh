@@ -11,3 +11,5 @@ gsutil ls gs://citytri-marketing.appspot.com/brooklyn-beach-half-marathon-10k-5k
 # bash
 
 # python -m   smugcli.smugcli sync  names/abigail-mccleary /names
+
+gsutil  -m rsync  -r names/ gs://citytri-marketing.appspot.com/names/
