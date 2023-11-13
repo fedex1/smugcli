@@ -7,7 +7,7 @@
 
 
 
-gsutil ls gs://citytri-marketing.appspot.com/brooklyn-beach-half-marathon-10k-5k-2023-june-04/** |grep WINDOW |awk -F/ '{dest=$NF; gsub("-2023.*","",dest); printf "mkdir -p \"names/%s\"\ngsutil cp \"gs://citytri-marketing.appspot.com/brooklyn-beach-half-marathon-10k-5k-2023-june-04/%s\" \"names/%s\"\n",dest,$NF,dest}'  | tee x |bash
+# gsutil ls gs://citytri-marketing.appspot.com/brooklyn-beach-half-marathon-10k-5k-2023-june-04/** |grep WINDOW |awk -F/ '{dest=$NF; gsub("-2023.*","",dest); printf "mkdir -p \"names/%s\"\ngsutil cp \"gs://citytri-marketing.appspot.com/brooklyn-beach-half-marathon-10k-5k-2023-june-04/%s\" \"names/%s\"\n",dest,$NF,dest}'  | tee x |bash
 # bash
 
 # python -m   smugcli.smugcli sync  names/abigail-mccleary /names
